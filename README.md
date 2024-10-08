@@ -1,4 +1,4 @@
-# vuetify-data-table-example
+# classHere
 
 ## Project setup
 ```
