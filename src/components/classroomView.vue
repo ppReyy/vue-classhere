@@ -10,18 +10,34 @@
           color="white"
           flat
         >
-          <v-toolbar-title class="title"></v-toolbar-title>          
-          <v-divider
-            class="mx-4"
-            inset
-            vertical
-          ></v-divider>
+          <v-toolbar-title class="title"></v-toolbar-title>  
+          
+          <div class="mx-left">
+                <router-link to="/">                
+                  <v-btn                  
+                  variant="flat"              
+                  color="white">
+                  CANCLE
+                  </v-btn>
+                </router-link>
+          </div>       
+
+          <div class="mx-left">
+                <router-link to="/">
+                <v-btn
+                class="primary"
+                variant="flat"              
+                color="#FF9800"       
+              >
+                SAVE
+              </v-btn>
+                </router-link>
+          </div>
           <v-spacer></v-spacer>
           
           <v-dialog
             v-model="dialog"
-            max-width="500px"
-          >
+            max-width="500px">
             <v-card>
                 
               <v-card-title>
@@ -118,6 +134,7 @@
           </v-dialog>
           
         </v-toolbar>
+        
         <v-sheet class="mx-left" width="300">
         <div class="text-left">
           <v-text class="boldText">
@@ -183,182 +200,119 @@
 </template>
   
 <script>
-    import AleartView from './aleartView.vue';
+  import AleartView from './aleartView.vue';
     
-        export default {
-            components:{
-                AleartView,
-            },
-        data: () => ({
-            dialog: false,
-            dialogDelete: false,
-            headers: [
+    export default {
+        components:{
+            AleartView,
+        },
+    data: () => ({
+        dialog: false,
+        dialogDelete: false,
+        headers: [
+        {
+            title: 'Name',
+            align: 'start',
+            sortable: false,
+            key: 'name',
+        },
+        { title: 'Student No.', key: 'studentNum' },
+        
+        { title: 'Actions', key: 'actions', sortable: false },
+        ],
+        students: [],
+        editedIndex: -1,
+        editedItem: {
+        name: '',
+        studentNum: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+        },
+        defaultItem: {
+        name: '',
+        studentNum: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+        },
+    }),
+
+    computed: {
+        formTitle () {
+        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        },
+    },
+
+    watch: {
+        dialog (val) {
+        val || this.close()
+        },
+        dialogDelete (val) {
+        val || this.closeDelete()
+        },
+    },
+
+    created () {
+        this.initialize()
+    },
+
+    methods: {
+        initialize () {
+        this.students = [
             {
-                title: 'Name',
-                align: 'start',
-                sortable: false,
-                key: 'name',
-            },
-            { title: 'Student No.', key: 'studentNum' },
-            
-            { title: 'Actions', key: 'actions', sortable: false },
-            ],
-            students: [],
-            editedIndex: -1,
-            editedItem: {
-            name: '',
-            studentNum: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
-            },
-            defaultItem: {
-            name: '',
-            studentNum: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
-            },
-        }),
-    
-        computed: {
-            formTitle () {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
+            name: 'Frozen Yogurt',
+            studentNum: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+            },              
+        ]
         },
-    
-        watch: {
-            dialog (val) {
-            val || this.close()
-            },
-            dialogDelete (val) {
-            val || this.closeDelete()
-            },
+
+        editItem (item) {
+        this.editedIndex = this.students.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
         },
-    
-        created () {
-            this.initialize()
+
+        deleteItem (item) {
+        this.editedIndex = this.students.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
         },
-    
-        methods: {
-            initialize () {
-            this.students = [
-                {
-                name: 'Frozen Yogurt',
-                studentNum: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                },
-                {
-                name: 'Ice cream sandwich',
-                studentNum: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                },
-                {
-                name: 'Eclair',
-                studentNum: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-                },
-                {
-                name: 'Cupcake',
-                studentNum: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-                },
-                {
-                name: 'Gingerbread',
-                studentNum: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-                },
-                {
-                name: 'Jelly bean',
-                studentNum: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-                },
-                {
-                name: 'Lollipop',
-                studentNum: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-                },
-                {
-                name: 'Honeycomb',
-                studentNum: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-                },
-                {
-                name: 'Donut',
-                studentNum: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-                },
-                {
-                name: 'KitKat',
-                studentNum: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-                },
-            ]
-            },
-    
-            editItem (item) {
-            this.editedIndex = this.students.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialog = true
-            },
-    
-            deleteItem (item) {
-            this.editedIndex = this.students.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialogDelete = true
-            },
-    
-            deleteItemConfirm () {
-            this.students.splice(this.editedIndex, 1)
-            this.closeDelete()
-            },
-    
-            close () {
-            this.dialog = false
-            this.$nextTick(() => {
-                this.editedItem = Object.assign({}, this.defaultItem)
-                this.editedIndex = -1
-            })
-            },
-    
-            closeDelete () {
-            this.dialogDelete = false
-            this.$nextTick(() => {
-                this.editedItem = Object.assign({}, this.defaultItem)
-                this.editedIndex = -1
-            })
-            },
-    
-            save () {
-            if (this.editedIndex > -1) {
-                Object.assign(this.students[this.editedIndex], this.editedItem)
-            } else {
-                this.students.push(this.editedItem)
-            }
-            this.close()
-            },
+
+        deleteItemConfirm () {
+        this.students.splice(this.editedIndex, 1)
+        this.closeDelete()
         },
+
+        close () {
+        this.dialog = false
+        this.$nextTick(() => {
+            this.editedItem = Object.assign({}, this.defaultItem)
+            this.editedIndex = -1
+        })
+        },
+
+        closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+            this.editedItem = Object.assign({}, this.defaultItem)
+            this.editedIndex = -1
+        })
+        },
+
+        save () {
+        if (this.editedIndex > -1) {
+            Object.assign(this.students[this.editedIndex], this.editedItem)
+        } else {
+            this.students.push(this.editedItem)
         }
+        this.close()
+        },
+    },
+    }
 </script>
   
 <style>
@@ -374,7 +328,6 @@
 
   .mx-left{
   padding-left: 10px;
-  margin-top: 10px;
-  
+  margin-top: 10px;  
   }
 </style>

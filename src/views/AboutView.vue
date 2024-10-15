@@ -1,16 +1,17 @@
 <template>
   <div class="about">
-    <ClassCheckIn/>
+    <ClassroomView/>
   </div>
 </template>
 
 <script>
-import ClassCheckIn from '@/components/classCheckIn.vue';
+
+import ClassroomView from '@/components/classroomView.vue';
 
 export default {
   name: 'AboutView',
   components: {
-    ClassCheckIn
+    ClassroomView
   }
 }
 </script>

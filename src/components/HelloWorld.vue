@@ -1,34 +1,34 @@
-<template>
+<template>  
     <v-data-table
     height="500"
     :headers="headers"
-    :items="desserts"
-    :sort-by="[{ key: 'calories', order: 'asc' }]"
-    >
+    :items="students"
+    :sort-by="[{ key: 'calories', order: 'asc' }]">
       
       <template v-slot:top>
         <v-toolbar
           color="white"          
-          flat
-        >          
+          flat>          
           <v-toolbar-title class="titleTable">Classroom</v-toolbar-title>       
           <v-spacer></v-spacer>
-        
-          <v-dialog
-            v-model="dialog"            
-          >          
-            <template v-slot:activator="{ props }">
-              <div class="buttonLeft">
+          
+              <div>
+                
+                <router-link to="/about">
+
                 <v-btn
                 class="primary"
                 variant="flat"              
-                color="#FF9800"            
-                v-bind="props"
+                color="#FF9800"       
+                
               >
                 NEW CLASSROOM
               </v-btn>
-              </div>
-            </template>
+                </router-link>
+              </div>      
+                        
+          <v-dialog
+            v-model="dialog">               
               <v-card class="mx-auto"
                 width="1280"
                 rounded="lg">
@@ -66,7 +66,7 @@
                       >
                         <v-text-field
                           v-model="editedItem.name"
-                          label="Dessert name"
+                          label="Classname"
                         ></v-text-field>
                       </v-col>
                       <v-col
@@ -76,7 +76,7 @@
                       >
                         <v-text-field
                           v-model="editedItem.calories"
-                          label="Calories"
+                          label="Student"
                         ></v-text-field>
                       </v-col>
                       <v-col
@@ -86,7 +86,7 @@
                       >
                         <v-text-field
                           v-model="editedItem.fat"
-                          label="Fat (g)"
+                          label="Time"
                         ></v-text-field>
                       </v-col>
                       <v-col
@@ -130,8 +130,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-        </v-toolbar>
-          
+        </v-toolbar>   
       </template>   
 
       <template v-slot:[`item.actions`]="{ item }">
@@ -142,6 +141,7 @@
         >
           mdi-pencil
         </v-icon>
+        
         <v-icon
           size="small"
           @click="deleteItem(item)"
@@ -158,18 +158,21 @@
           Reset
         </v-btn>
       </template>
+
     </v-data-table>
 </template>
 
-<script>
+<script >
 import ClassroomView from './classroomView.vue';
+import { useCounterStore } from '@/store';
+import { mapStores } from 'pinia'
 
 
-  export default {
+
+  export default {  
     
     components:{
-      ClassroomView,
-
+      ClassroomView,      
     },
     data: () => ({
       dialog: false,
@@ -182,12 +185,12 @@ import ClassroomView from './classroomView.vue';
           key: 'name',
         },
         { title: 'Student', key: 'calories' },
-        { title: 'Fat (g)', key: 'fat' },
-        { title: 'Carbs (g)', key: 'carbs' },
+        { title: 'Date', key: 'fat' },
+        { title: 'Time', key: 'carbs' },
         { title: 'Protein (g)', key: 'protein' },
         { title: 'Actions', key: 'actions', sortable: false },
       ],
-      desserts: [],
+      students: [],
       editedIndex: -1,
       editedItem: {
         name: '',
@@ -210,6 +213,7 @@ import ClassroomView from './classroomView.vue';
       formTitle () {
         return this.editedIndex === -1 ? 'New Classroom' : 'Edit Item'
       },
+      ...mapStores(useCounterStore)
     },
 
     watch: {
@@ -227,94 +231,32 @@ import ClassroomView from './classroomView.vue';
 
     methods: {
       initialize () {
-        this.desserts = [
+        
+        this.students = [
           {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
+            name: this.counterStore.name,
+            calories: this.counterStore.studentNum,
+            fat: this.counterStore.date,
+            carbs: this.counterStore.time,            
           },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
+          
         ]
       },
 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.students.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.students.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
+        this.students.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -336,14 +278,26 @@ import ClassroomView from './classroomView.vue';
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          Object.assign(this.students[this.editedIndex], this.editedItem)
         } else {
-          this.desserts.push(this.editedItem)
+          this.students.push(this.editedItem)
         }
         this.close()
       },
-      
+      addStudent(){
+        this.students = [
+          {
+            name: this.counterStore.name,
+            calories: this.counterStore.studentNum,
+            fat: this.counterStore.date,
+            carbs: 24,
+            protein: 4.0,
+          },
+          
+        ]
+      },     
     },
+    
   }
 </script>
 
@@ -370,4 +324,8 @@ import ClassroomView from './classroomView.vue';
 .buttonLeft {
   margin-right: 20px;
 }
+.mx-left{
+  padding-left: 10px;
+  margin-top: 10px;  
+  }
 </style>

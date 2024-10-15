@@ -9,8 +9,6 @@
           flat
         >
           <v-toolbar-title class="title">Classroom Name</v-toolbar-title>
-          
-          
 
           <v-spacer></v-spacer>
             <div>
