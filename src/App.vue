@@ -1,32 +1,16 @@
 <template>
   <nav>
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-        
-    <div>{{ storeCounter.name }}</div>
     
-    
-    
-    <v-btn @click="storeCounter.decreaseCount">-</v-btn>
-    <v-btn @click="storeCounter.increaseCount">+</v-btn>     -->
   </nav>
-
     <v-app>      
         <router-view/>         
-        <v-app-bar color="black"
+        <v-app-bar color="blue-grey-darken-4"
         rounded="lg"
-        :elevation="4">
-          <v-app-bar-title class="titleBar">Class<span class="highlight-words">Here</span></v-app-bar-title>
+        :elevation="2">        
+          <v-app-bar-title class="titleBar"><router-link to="/">Class<span class="highlight-words">Here</span></router-link></v-app-bar-title>
         </v-app-bar>
     </v-app>
-
 </template>
-
-<script setup>
-// import { useCounterStore  } from '@/store/index';
-// const storeCounter = useCounterStore()
-
-</script>
 
 <style>
 #app {
@@ -46,11 +30,9 @@ nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 nav a.router-link-exact-active {
   color: #42b983;
 }
-
 .highlight-words {
   color: rgb(250, 111, 31);
 }
@@ -66,5 +48,4 @@ nav a.router-link-exact-active {
   }
 </style>
 
-//https://github.com/Noorulain-1095/VueJS-login-app
 

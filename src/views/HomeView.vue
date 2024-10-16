@@ -1,16 +1,17 @@
 <template>  
-  <HelloWorld />   
+  <ClassroomList />   
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
+import ClassroomList from '@/components/ClassroomList.vue';
+
+
 
 
 export default {
-
-  name: 'HomeView',
+  name: 'homeRoom',
   components: {
-    HelloWorld
+    ClassroomList
   }
 }
 
